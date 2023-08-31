@@ -5,9 +5,13 @@ import { Link as LinkIcon } from 'grommet-icons';
 
 import { HighlightPhrase } from '../../components';
 import { nameToSlug } from '../../utils';
+import { useContext } from 'react';
+import { ViewContext } from '../../pages/_app';
+import { NotifTag } from './NotifTag';
 
 export const SubsectionHeader = ({ children, level }) => {
   const [over, setOver] = useState(false);
+  const { wholeViewHistory, currentPage } = useContext(ViewContext);
   const id = nameToSlug(children);
   return (
     <Box
@@ -24,6 +28,21 @@ export const SubsectionHeader = ({ children, level }) => {
       <Heading margin={{ vertical: 'small' }} level={level}>
         <HighlightPhrase size="inherit">{children}</HighlightPhrase>
       </Heading>
+
+      {wholeViewHistory &&
+        currentPage in wholeViewHistory &&
+        wholeViewHistory[currentPage].update &&
+        wholeViewHistory[currentPage].sections.includes(children) && (
+          <Box pad={{ left: 'small' }}>
+            <NotifTag
+              size="small"
+              color="teal"
+              textVal="Updated"
+              allyDes={`There's been updates for ${children}`}
+            />
+          </Box>
+        )}
+
       <Button
         tip="Copy link to clipboard"
         a11yTitle={`Jump to section titled ${children} 

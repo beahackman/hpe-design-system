@@ -73,6 +73,7 @@ function App({ Component, pageProps, router }) {
   const [changeLog, setChangeLog] = useState({});
   //state that holds boolean for whether or not update info is ready to be rendered
   const [pageUpdateReady, setPageUpdateReady] = useState(false);
+  const [currentPage, setCurrentPage] = useState(''); 
 
   //this effect is only for the first time a page loads
   useEffect(() => {
@@ -207,6 +208,7 @@ function App({ Component, pageProps, router }) {
           'update-history',
           JSON.stringify(tempHistory),
         );
+        setCurrentPage(name);
         setWholeViewHistory(tempHistory);
         setChangeLog(tempLog);
         setPageUpdateReady(true);
@@ -254,6 +256,7 @@ function App({ Component, pageProps, router }) {
           );
           window.localStorage.setItem(tokenName, dateTime);
 
+          setCurrentPage(noQueryName);
           setWholeViewHistory(viewHistory);
           setPageUpdateReady(true);
         }
@@ -287,6 +290,7 @@ function App({ Component, pageProps, router }) {
           pageUpdateReady,
           setPageUpdateReady,
           changeLog,
+          currentPage
         }}
       >
         <Layout
